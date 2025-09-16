@@ -146,34 +146,6 @@ PostgreSQL is used with **data cleaning**, **window functions**, and **CTEs (Com
 
 ---
 
-## 📝 Sample Query
-
-**Above/Below Average Categorization by Genre**
-
-sql
-SELECT
-    name,
-    genre,
-    critic_score,
-    user_score,
-    AVG(critic_score) OVER (PARTITION BY genre) AS avg_critic_score_genre,
-    AVG(user_score) OVER (PARTITION BY genre) AS avg_user_score_genre,
-    CASE
-        WHEN critic_score > AVG(critic_score) OVER (PARTITION BY genre) THEN 'Critic Above Average'
-        WHEN critic_score < AVG(critic_score) OVER (PARTITION BY genre) THEN 'Critic Below Average'
-        ELSE 'Critic Average'
-    END AS critic_category,
-    CASE
-        WHEN user_score > AVG(user_score) OVER (PARTITION BY genre) THEN 'User Above Average'
-        WHEN user_score < AVG(user_score) OVER (PARTITION BY genre) THEN 'User Below Average'
-        ELSE 'User Average'
-    END AS user_category
-FROM video_games
-WHERE critic_score <> 0 AND user_score <> 0
-ORDER BY genre;
-
----
-
 🔗 How to Use
 Load the video_games_sales table into your PostgreSQL database.
 Create the video_games view.
